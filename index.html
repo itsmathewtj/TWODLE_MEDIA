@@ -1081,10 +1081,10 @@
                 <p>Share a quick overview and we’ll schedule a discovery call within one business day.</p>
               </div>
 
-              <form action="forms/contact.php" method="post" class="php-email-form">
+              <form action="forms/contact.php" method="post" class="php-email-form" id="contactForm">
                 <div class="row">
                   <div class="col-md-6 mb-3">
-                    <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                    <input type="text" name="name" class="form-control" placeholder="Full Name" required="">
                   </div>
                   <div class="col-md-6 mb-3">
                     <input type="email" class="form-control" name="email" placeholder="Email Address" required="">
@@ -1092,12 +1092,16 @@
                 </div>
 
                 <div class="mb-3">
-                  <input type="text" class="form-control" name="subject" placeholder="What's this about?" required="">
+                  <input type="tel" class="form-control" name="phone" placeholder="Phone Number" required="">
+                </div>
+
+                <div class="mb-3">
+                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
                 </div>
 
                 <div class="mb-4">
-                  <textarea class="form-control" name="message" rows="4"
-                    placeholder="Tell us more about your project..." required=""></textarea>
+                  <textarea class="form-control" name="message" rows="4" placeholder="Your Message"
+                    required=""></textarea>
                 </div>
 
                 <div class="my-3">
@@ -1106,10 +1110,13 @@
                   <div class="sent-message">Your message has been sent. Thank you!</div>
                 </div>
 
-                <button type="submit" class="submit-btn">
-                  <span>Send Message</span>
-                  <i class="bi bi-send-fill"></i>
-                </button>
+                <div class="d-flex flex-wrap gap-2">
+
+                  <button type="button" class="submit-btn" id="sendWhatsAppBtn">
+                    <span>Send to WhatsApp</span>
+                    <i class="bi bi-whatsapp"></i>
+                  </button>
+                </div>
               </form>
             </div>
           </div>
@@ -1322,6 +1329,36 @@
         }
       }
     });
+  </script>
+
+  <script>
+    (function () {
+      const form = document.getElementById('contactForm');
+      const sendBtn = document.getElementById('sendWhatsAppBtn');
+      if (!form || !sendBtn) return;
+
+      sendBtn.addEventListener('click', () => {
+        if (!form.reportValidity()) return;
+
+        const name = form.querySelector('input[name="name"]')?.value.trim() || '';
+        const email = form.querySelector('input[name="email"]')?.value.trim() || '';
+        const phone = form.querySelector('input[name="phone"]')?.value.trim() || '';
+        const subject = form.querySelector('input[name="subject"]')?.value.trim() || '';
+        const message = form.querySelector('textarea[name="message"]')?.value.trim() || '';
+
+        const text =
+          `Hello, My name is ${name}, and I would like to know more about your services. Please find my details below and connect with me on WhatsApp.\n\n` +
+          `Full Name: ${name}\n` +
+          `Email Address: ${email}\n` +
+          `Phone Number: ${phone}\n` +
+          `Subject: ${subject}\n` +
+          `Your Message: ${message}`;
+
+        const whatsappNumber = '918891007306';
+        const url = `https://wa.me/${8891007306}?text=${encodeURIComponent(text)}`;
+        window.open(url, '_blank');
+      });
+    })();
   </script>
 
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516"
